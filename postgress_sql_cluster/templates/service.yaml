@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgress-cluster.fullname" . }}
+  labels:
+    {{- include "postgress-cluster.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "postgress-cluster.selectorLabels" . | nindent 4 }}
+# templates/service.yaml
+{{- range $key, $value := .Values.postgresqlClusters }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $value.fullnameOverride }}
+  labels:
+    app: {{ $value.fullnameOverride }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: {{ $value.fullnameOverride }}
+{{- end }}
