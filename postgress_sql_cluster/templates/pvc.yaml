@@ -1,0 +1,16 @@
+# templates/pvc.yaml
+{{- range $key, $value := .Values.postgresqlClusters }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $value.fullnameOverride }}-pvc
+  labels:
+    app: {{ $value.fullnameOverride }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ $value.persistence.size }}
+{{- end }}
