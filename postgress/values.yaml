@@ -11,8 +11,8 @@ image:
   tag: ""
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "postgress"
+fullnameOverride: "postgress_sql"
 
 serviceAccount:
   # Specifies whether a service account should be created
